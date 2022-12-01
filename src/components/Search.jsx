@@ -32,7 +32,7 @@ function Search() {
   };
 
   const handleSelect = async ()=>{
-    //checar si existe un chat en el grupo, sino crearlo
+  /*  //checar si existe un chat en el grupo, sino crearlo
     const combinedId = 
     currentUser.uid > user.uid 
     ? currentUser.uid + user.uid 
@@ -72,8 +72,42 @@ function Search() {
     }
     
     setUser(null);
-    setUsername("");
+    setUsername("");*/
 
+    const combinedid = currentUser.uid > user.uid 
+    ? currentUser.uid + user.uid 
+    : user.uid +  currentUser.uid;
+
+  try {
+    const res = await getDoc(doc(db, "chats", combinedid));
+
+    if(!res.exists()){
+      //create chat in the chats collection
+      await setDoc(doc(db, "chats", combinedid),{messages:[]});
+
+      //create user chats
+      await updateDoc(doc(db, "userChats", currentUser.uid), {
+        [combinedid + ".userInfo"]:{
+          uid:user.uid,
+          displayName: user.displayName,
+          photoURL: user.photoURL
+        },
+        [combinedid+".date"]: serverTimestamp()
+      });
+
+      await updateDoc(doc(db, "userChats", user.uid), {
+        [combinedid + ".userInfo"]:{
+          uid:currentUser.uid,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL
+        },
+        [combinedid+".date"]: serverTimestamp()
+      });
+    }
+  } catch (err) {}
+
+  setUser(null);
+  setUsername("");
   };
 
   return (

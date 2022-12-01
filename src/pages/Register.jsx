@@ -15,18 +15,6 @@ const Register = () => {
 	const [err, setErr] = useState(false);
 	const navigate = useNavigate();
 
-	const cifrar = (texto) =>{
-		var textoCif = CryptoJS.AES.encrypt(texto, "@POI2022").toString();
-		return textoCif;
-	}
-
-	const descifrar = (texto) =>{
-		debugger
-		var bytes = CryptoJS.AES.decrypt(texto, "@POI2022");
-		var textodescf = bytes.toString(CryptoJS.enc.Utf8);
-		return textodescf;
-	} 
-
 	const handleSubmitRegister = async (e) =>{
 		e.preventDefault();
 		const displayName = e.target[1].value;

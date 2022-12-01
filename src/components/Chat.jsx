@@ -9,16 +9,6 @@ import CryptoJS from 'crypto-js';
 function Chat() {
   const {data} = useContext(ChatContext);
 
-  const cifrar = (texto) =>{
-		var textoCif = CryptoJS.AES.encrypt(texto, "@POI2022").toString();
-		return textoCif;
-	}
-
-	const descifrar = (texto) =>{
-		var bytes = CryptoJS.AES.decrypt(texto, "@POI2022");
-		var textodescf = bytes.toString(CryptoJS.enc.Utf8);
-		return textodescf;
-	}
 
   return (
     <div className='chat'>
